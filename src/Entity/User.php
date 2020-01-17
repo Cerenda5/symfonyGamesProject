@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
@@ -53,6 +55,11 @@ class User implements UserInterface
      * @ORM\Column(type="date")
      */
     private $creationdate;
+
+    public function __construct() {
+        $this->creationdate = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {
